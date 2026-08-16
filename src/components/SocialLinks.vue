@@ -5,8 +5,9 @@
       <a
         v-for="item in socialLinks"
         :key="item.name"
-        :href="item.url"
-        target="_blank"
+        :href="item.copy ? undefined : item.url"
+        :target="item.copy ? undefined : '_blank'"
+        @click="handleClick(item)"
         @mouseenter="socialTip = item.tip"
         @mouseleave="socialTip = '通过这里联系我吧'"
       >
@@ -18,10 +19,51 @@
 </template>
 
 <script setup>
+import { Copy } from "@icon-park/vue-next";
 import socialLinks from "@/assets/socialLinks.json";
 
 // 社交链接提示
 const socialTip = ref("通过这里联系我吧");
+
+// 点击处理：有 copy 字段则复制，否则走默认跳转
+const handleClick = async (item) => {
+  if (!item.copy) return;
+  const ok = await copyText(String(item.copy));
+  ElMessage({
+    message: ok ? `已复制 ${item.name}：${item.copy}` : "复制失败，请手动复制",
+    grouping: true,
+    icon: h(Copy, {
+      theme: "filled",
+      fill: "#efefef",
+    }),
+  });
+};
+
+// 复制文本（兼容非 HTTPS 环境）
+const copyText = async (text) => {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // 继续走降级方案
+    }
+  }
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand("copy");
+    return true;
+  } catch (e) {
+    return false;
+  } finally {
+    document.body.removeChild(textarea);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -58,6 +100,7 @@ const socialTip = ref("通过这里联系我吧");
     justify-content: center;
     a {
       display: inherit;
+      cursor: pointer;
       .icon {
         margin: 0 12px;
         transition: transform 0.3s;

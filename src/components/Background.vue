@@ -34,18 +34,18 @@ const emit = defineEmits(["loadComplete"]);
 
 // 壁纸随机数
 // 请依据文件夹内的图片个数修改 Math.random() 后面的第一个数字
-const bgRandom = Math.floor(Math.random() * 10 + 1);
+const bgRandom = Math.floor(Math.random() * 5 + 1);
 
 // 更换壁纸链接
 const changeBg = (type) => {
   if (type == 0) {
     bgUrl.value = `/images/background${bgRandom}.jpg`;
   } else if (type == 1) {
-    bgUrl.value = "https://api.dujin.org/bing/1920.php";
+    bgUrl.value = "https://api.kdcc.cn/img/bing/";
   } else if (type == 2) {
-    bgUrl.value = "https://api.vvhan.com/api/wallpaper/views";
+    bgUrl.value = "https://picsum.photos/1920/1080";
   } else if (type == 3) {
-    bgUrl.value = "https://api.vvhan.com/api/wallpaper/acg";
+    bgUrl.value = "https://www.loliapi.com/acg/";
   }
 };
 

@@ -3,7 +3,7 @@
     <!-- 移动端 Logo -->
     <div class="logo text-hidden" @click="store.mobileFuncState = !store.mobileFuncState">
       <span class="bg">{{ siteUrl[0] }}</span>
-      <span class="sm">.{{ siteUrl[1] }}</span>
+      <span class="sm" v-if="siteUrl[1]">.{{ siteUrl[1] }}</span>
     </div>
     <!-- 功能区 -->
     <Func />
