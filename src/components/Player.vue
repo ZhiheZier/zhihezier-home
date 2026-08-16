@@ -83,6 +83,14 @@ const listHeight = computed(() => {
   return props.listMaxHeight + "px";
 });
 
+// 浏览器自动播放策略：首次用户交互后尝试自动播放
+const tryAutoplay = () => {
+  if (!store.playerAutoplay) return; // 未开启自动播放
+  if (store.playerState) return; // 已在播放
+  if (!player.value) return; // 播放器未就绪
+  player.value.play();
+};
+
 // 初始化播放器
 onMounted(() => {
   nextTick(() => {
@@ -110,6 +118,16 @@ onMounted(() => {
         });
       });
   });
+  // 监听首次用户交互，绕过浏览器自动播放限制
+  document.addEventListener("click", tryAutoplay);
+  document.addEventListener("keydown", tryAutoplay);
+  document.addEventListener("touchstart", tryAutoplay);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", tryAutoplay);
+  document.removeEventListener("keydown", tryAutoplay);
+  document.removeEventListener("touchstart", tryAutoplay);
 });
 
 // 播放
