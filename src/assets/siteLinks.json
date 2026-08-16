@@ -8,5 +8,10 @@
     "icon": "Book",
     "name": "文档",
     "link": "https://docs.zhihezier.com"
+  },
+  {
+    "icon": "CompactDisc",
+    "name": "音乐",
+    "link": "https://music.zhihezier.com"
   }
 ]
