@@ -9,7 +9,7 @@ export const mainStore = defineStore("main", {
       siteStartShow: true, // 建站日期显示
       musicClick: false, // 音乐链接是否跳转
       musicIsOk: false, // 音乐是否加载完成
-      musicVolume: 5, // 音乐音量;
+      musicVolume: 0.05, // 音乐音量;
       musicOpenState: false, // 音乐面板开启状态
       backgroundShow: false, // 壁纸展示状态
       boxOpenState: false, // 盒子开启状态
