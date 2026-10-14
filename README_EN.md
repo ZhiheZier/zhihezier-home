@@ -77,7 +77,7 @@ Please change the song related parameters in the `.env` file to customize the so
 
 ```bash
 # Songs API address
-VITE_SONG_API = "https://api-meting.imsyy.top"
+VITE_SONG_API = "https://api.injahow.cn/meting/"
 # Song server ( netease-netease, tencent-qq music )
 VITE_SONG_SERVER = "netease"
 # Playback type ( song-song, playlist-playlist, album-album, search-search, artist-artist )

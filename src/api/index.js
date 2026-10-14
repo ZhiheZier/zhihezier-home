@@ -7,10 +7,30 @@ import fetchJsonp from "fetch-jsonp";
 
 // 获取音乐播放列表
 export const getPlayerList = async (server, type, id) => {
-  const res = await fetch(
-    `${import.meta.env.VITE_SONG_API}?server=${server}&type=${type}&id=${id}`,
-  );
-  const data = await res.json();
+  const api = import.meta.env.VITE_SONG_API?.trim();
+  if (!api) throw new Error("未配置 VITE_SONG_API");
+
+  const url = new URL(api, window.location.origin);
+  url.searchParams.set("server", server);
+  url.searchParams.set("type", type);
+  url.searchParams.set("id", id);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
+  let data;
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error(`音乐接口请求失败：HTTP ${res.status}`);
+    data = await res.json();
+  } finally {
+    clearTimeout(timeout);
+  }
+
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error("音乐接口未返回歌曲，请检查接口和歌单是否公开");
+  }
+  if (data.some((song) => !song || typeof song.url !== "string" || !song.url.trim())) {
+    throw new Error("音乐接口返回的歌曲缺少播放地址");
+  }
 
   if (data[0].url.startsWith("@")) {
     // eslint-disable-next-line no-unused-vars

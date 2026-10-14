@@ -85,7 +85,7 @@ const store = mainStore();
 
 // 音量条数据
 const volumeShow = ref(false);
-const volumeNum = ref(store.musicVolume ? store.musicVolume : 0.7);
+const volumeNum = ref(store.musicVolume ?? 0.2);
 
 // 播放列表数据
 const musicListShow = ref(false);

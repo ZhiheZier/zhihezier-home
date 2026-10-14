@@ -5,8 +5,10 @@
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
       <div class="name">
-        <span class="bg">{{ siteUrl[0] }}</span>
-        <span class="sm" v-if="siteUrl[1]">.{{ siteUrl[1] }}</span>
+        <span class="name-text">
+          <span class="bg">{{ siteUrl[0] }}</span>
+          <span class="sm" v-if="siteUrl[1]">.{{ siteUrl[1] }}</span>
+        </span>
       </div>
     </div>
     <!-- 简介 -->
@@ -123,7 +125,10 @@ watch(
         width: 100px;
       }
       .name {
+        display: flex;
+        align-items: center;
         height: 128px;
+        transform: none;
         .bg {
           font-size: 3rem;
         }
